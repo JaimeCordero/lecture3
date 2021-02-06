@@ -33,12 +33,7 @@
                 height: 34px;
             }
 
-            /* Hide default HTML checkbox */
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
+            .switch input {display:none;}
 
             .slider {
                 position: absolute;
@@ -108,12 +103,17 @@
             <label for="Pipe_radius">Pipe_radius</label>
         </div>
         <div>
+        <div>
+            <input type="range" id="skeleton" name="skeleton" min="0" max="1" value="0" step="1">
+            <label for="skeleton">Skin / Skeleton (takes a while) </label>
+        </div>
+        <!--<div>
+        switch between skeleton or skin
             <label class="switch" for="skeleton">
                 <input type="checkbox" id="skeleton" name="skeleton">
-                <span class="slider round"></span>
-                skeleton
+                <span class="slider"></span>
             </label>
-        </div>
+        </div>-->
         <button id="downloadButton" disabled>Download</button>
         <script type="module" src="./script.js"></script>
 	</body>

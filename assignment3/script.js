@@ -19,9 +19,9 @@ extrusion_slider.addEventListener( 'input', onSliderChange, false )
 const pipe_slider = document.getElementById( 'Pipe_radius' )
 pipe_slider.addEventListener( 'input', onSliderChange, false )
 
-const skeletonswitch = document.getElementById( 'skeleton' )
-skeletonswitch.checked = true
-skeletonswitch.unchecked = false
+//document.addEventListener('DOMContentLoaded', function () {
+const skeleton = document.getElementById( 'skeleton' )
+skeleton.addEventListener( 'input', onSliderChange, false )
 
 const downloadButton = document.getElementById("downloadButton")
 downloadButton.onclick = download
@@ -64,6 +64,7 @@ async function compute() {
     let Scale = document.getElementById('Scale').valueAsNumber
     let Extrusion = document.getElementById('Extrusion').valueAsNumber
     let Pipe_radius = document.getElementById('Pipe_radius').valueAsNumber
+    let skeleton = document.getElementById('skeleton').valueAsNumber
 
     // format data
     let param1 = new RhinoCompute.Grasshopper.DataTree('RH_IN:Height')
@@ -76,6 +77,8 @@ async function compute() {
     param4.append([0], [Extrusion])
     let param5 = new RhinoCompute.Grasshopper.DataTree('RH_IN:Pipe_radius')
     param5.append([0], [Pipe_radius])
+    let param6 = new RhinoCompute.Grasshopper.DataTree('RH_IN:skeleton')
+    param6.append([0], [skeleton])
 
     // Add all params to an array
     let trees = []
@@ -84,6 +87,19 @@ async function compute() {
     trees.push(param3)
     trees.push(param4)
     trees.push(param5)
+    trees.push(param6)
+
+    //Toggle between skeleton or skin
+    //skeleton.addEventListener ('change', function() {
+    //    if (skeleton.checked) {
+    //        console.log ('true')
+    //    }
+    //    else{
+    //        console.log ('false')
+    //    } 
+    //})
+        
+
 
     // Call RhinoCompute
 
@@ -166,7 +182,7 @@ function getApiKey() {
 // download button handler
 function download () {
     let buffer = doc.toByteArray()
-    saveByteArray("node.3dm", buffer)
+    saveByteArray("column.3dm", buffer)
 }
 
 function saveByteArray ( fileName, byte ) {
@@ -186,8 +202,9 @@ function init() {
     // create a scene and a camera
     scene = new THREE.Scene()
     scene.background = new THREE.Color(1, 1, 1)
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.z = - 30
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000)
+    camera.position.set (0,5,-3)
+    //camera.lookAt (new THREE.Vector3(-10,1,1))
 
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -199,7 +216,7 @@ function init() {
 
     // add a directional light
     const directionalLight = new THREE.DirectionalLight( 0xffffff )
-    directionalLight.intensity = 2
+    directionalLight.intensity = 1.7
     scene.add( directionalLight )
 
     const ambientLight = new THREE.AmbientLight()
